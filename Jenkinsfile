@@ -11,11 +11,11 @@ pipeline{
             }
         }
     
-        stage("Clone Code from GitHub"){
-            steps{
-                git url: "https://github.com/SudarshanKDeore/My_Docker.git", branch: "main"
-            }
-        }
+//        stage("Clone Code from GitHub"){
+//            steps{
+//                git url: "https://github.com/SudarshanKDeore/My_Docker.git", branch: "main"
+//            }
+//        }
 
         stage("SonarQube Quality Analysis"){
             steps{
