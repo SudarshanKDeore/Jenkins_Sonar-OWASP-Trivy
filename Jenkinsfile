@@ -4,11 +4,19 @@ pipeline{
         SONAR_HOME= tool "Sonar"
     }
     stages{
+    
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()  // Clean before starting
+            }
+        }
+    
         stage("Clone Code from GitHub"){
             steps{
                 git url: "https://github.com/SudarshanKDeore/My_Docker.git", branch: "main"
             }
         }
+
         stage("SonarQube Quality Analysis"){
             steps{
                 echo "Done SonarQube Quality Analysis"
@@ -21,6 +29,7 @@ pipeline{
                 dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
             }
         }
+
         stage("Sonar Quality Gate Scan"){
             steps{
                 echo "Done Sonar Quality Gate Scan"
@@ -32,6 +41,7 @@ pipeline{
                 sh "trivy fs --format  table -o trivy-fs-report.html ."
             }
         }
+
         stage("Docker build"){
             steps{
                 echo "Done Docker build"
