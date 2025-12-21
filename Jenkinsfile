@@ -60,13 +60,15 @@ stage('OWASP Dependency Check') {
             steps {
                 sh '''
                 trivy fs --severity HIGH,CRITICAL \
-                --format html \                     //--format table \
-                -o trivy-fs-report.html \           //-o trivy-fs-report.txt .
-                . || true                           //
+                --format html \                     
+                -o trivy-fs-report.html \           
+                . || true                           
                 '''
             }
         }
-
+                            //  --format table \
+                            // -o trivy-fs-report.txt .
+        
         stage('Docker build'){
             steps{
                 echo "Done Docker build"
