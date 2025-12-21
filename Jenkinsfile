@@ -56,16 +56,17 @@ stage('OWASP Dependency Check') {
                 }
             }
         
-        stage('Trivy File System Scan'){
-            steps {
-                sh '''
-                trivy fs --severity HIGH,CRITICAL \
-                --format html \                     
-                -o trivy-fs-report.html \           
-                . || true                           
-                '''
-            }
-        }
+stage('Trivy File System Scan (HTML)') {
+    steps {
+        sh '''
+        trivy fs \
+        --severity HIGH,CRITICAL \
+        --format html \
+        -o trivy-fs-report.html \
+        . || true
+        '''
+    }
+}
                             //  --format table \
                             // -o trivy-fs-report.txt .
         
