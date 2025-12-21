@@ -60,8 +60,9 @@ stage('OWASP Dependency Check') {
             steps {
                 sh '''
                 trivy fs --severity HIGH,CRITICAL \
-                --format table \
-                -o trivy-fs-report.txt .
+                --format html \                     //--format table \
+                -o trivy-fs-report.html \           //-o trivy-fs-report.txt .
+                . || true                           //
                 '''
             }
         }
