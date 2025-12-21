@@ -28,10 +28,13 @@ stage('OWASP Dependency Check') {
         NVD_API_KEY = credentials('nvd-api-key')
     }
     steps {
-        // Run the scan
+        // Make sure output folder exists
+        sh 'mkdir -p odc-report'
+
+        // Run Dependency-Check (HTML + XML via ALL)
         dependencyCheck additionalArguments: '''
         --scan .
-        --format XML --format HTML
+        --format ALL
         --out odc-report
         --data /var/lib/jenkins/odc-data
         ''', odcInstallation: 'dc'
