@@ -4,54 +4,26 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
-package com.demo;
-
-public void nullPointer() {
-    String s = null;
-    System.out.println(s.length()); // NEW bug
-}
-
-public class ForceFail {
-
-    private static final String PASSWORD = "password123"; // 🔐 Vulnerability
-
-    public static void main(String[] args) {
-        String s = null;
-        System.out.println(s.length()); // 🐞 Bug (NullPointerException)
-    }
-}
-
-public class FailGate {
-
-    private static final String SECRET = "password123";
-
-    public static void main(String[] args) {
-        String s = null;
-        System.out.println(s.length());
-    }
-}
-
 public class BadCodeExample {
 
-    // 🔐 Security Vulnerability (Hardcoded credentials)
+    // 🔐 SECURITY VULNERABILITY: Hardcoded secret
     private static final String DB_PASSWORD = "admin123";
 
     public static void main(String[] args) {
 
-        BadCodeExample obj = new BadCodeExample();
-        obj.calculate(10, 0);  // 🐞 Bug: division by zero
+        // 🐞 BUG: NullPointerException (runtime bug)
+        String data = null;
+        System.out.println(data.length());
 
-        obj.sqlInjection("admin' OR '1'='1"); // 🔐 Vulnerability
-        obj.unusedMethod(); // 🧹 Code smell
+        // 🔐 SECURITY VULNERABILITY: SQL Injection
+        insecureSql("admin' OR '1'='1");
+
+        // 🧹 CODE SMELL: Useless assignment
+        int unused = 100;
     }
 
-    // 🐞 Bug: No zero check
-    public int calculate(int a, int b) {
-        return a / b;
-    }
-
-    // 🔐 Security Vulnerability: SQL Injection
-    public void sqlInjection(String userInput) {
+    // 🔐 SECURITY VULNERABILITY: SQL Injection
+    public static void insecureSql(String userInput) {
         try {
             Connection conn = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/test",
@@ -60,14 +32,13 @@ public class BadCodeExample {
             );
 
             Statement stmt = conn.createStatement();
-            stmt.execute("SELECT * FROM users WHERE name = '" + userInput + "'");
-        } catch (Exception e) {
-            e.printStackTrace(); // 🧹 Code smell
-        }
-    }
+            stmt.execute(
+                "SELECT * FROM users WHERE username = '" + userInput + "'"
+            );
 
-    // 🧹 Code smell: unused method
-    private void unusedMethod() {
-        int x = 10;
+        } catch (Exception e) {
+            // 🧹 CODE SMELL: printStackTrace
+            e.printStackTrace();
+        }
     }
 }
