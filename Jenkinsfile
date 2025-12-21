@@ -59,10 +59,17 @@ stage('OWASP Dependency Check') {
 stage('Trivy File System Scan (HTML)') {
     steps {
         sh '''
+        mkdir -p trivy-templates
+
+        if [ ! -f trivy-templates/html.tpl ]; then
+          curl -o trivy-templates/html.tpl \
+          https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl
+        fi
+
         trivy fs \
         --severity HIGH,CRITICAL \
         --format template \
-        --template "@contrib/html.tpl" \
+        --template "@trivy-templates/html.tpl" \
         -o trivy-fs-report.html \
         . || true
         '''
