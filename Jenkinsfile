@@ -34,8 +34,8 @@ stage('OWASP Dependency Check') {
         // 1️⃣ Ensure output folder exists
         sh 'mkdir -p odc-report'
 
-        // 2️⃣ Build Maven project to download dependencies
-        sh 'mvn clean compile'
+        // 2️⃣ Build Maven project and copy dependencies
+        sh 'mvn clean compile dependency:copy-dependencies'
 
         // 3️⃣ Run Dependency-Check (HTML + XML via ALL)
         dependencyCheck additionalArguments: '''
