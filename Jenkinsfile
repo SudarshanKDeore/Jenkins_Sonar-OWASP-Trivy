@@ -29,7 +29,8 @@ stage('OWASP Dependency Check') {
             dependencyCheck additionalArguments: """
             --scan .
             --format XML
-            --out dependency-check-report
+            --out ./odc-report
+            --data /var/lib/jenkins/odc-data
             --nvdApiKey ${NVD_API_KEY}
             """, odcInstallation: 'dc'
         }
