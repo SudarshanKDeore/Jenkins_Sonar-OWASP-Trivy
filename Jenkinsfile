@@ -46,8 +46,13 @@ stage('OWASP Dependency Check') {
             }
         
         stage('Trivy File System Scan'){
-            steps{
-                sh "trivy fs --format  table -o trivy-fs-report.html ."
+            steps {
+                sh '''
+                trivy fs --severity HIGH,CRITICAL \
+                --format table \
+                --exit-code 1 \
+                -o trivy-fs-report.txt .
+                '''
             }
         }
 
