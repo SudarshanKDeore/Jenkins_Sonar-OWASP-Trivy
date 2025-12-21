@@ -1,6 +1,10 @@
 pipeline{
     agent any
-
+    
+        tools {
+        maven 'M3'  // Name of Maven installation configured in Jenkins for Sonar
+    }
+    
     stages{
     
         stage('Clean Workspace') {
@@ -56,7 +60,7 @@ stage('OWASP Dependency Check') {
 
         stage('SonarQube Quality Analysis') {
             environment {
-                SONAR_TOKEN = credentials('sonar-token')
+                SONAR_TOKEN = credentials('Sonar')
             }
             steps {
                 withSonarQubeEnv('SonarQube') {
