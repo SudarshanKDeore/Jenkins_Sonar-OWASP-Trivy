@@ -16,13 +16,7 @@ pipeline{
                     branch: 'main'
             }
         }
-
-        stage('SonarQube Quality Analysis'){
-            steps{
-                echo "Done SonarQube Quality Analysis"
-                }
-            }
-        
+       
 stage('OWASP Dependency Check') {
     environment {
         NVD_API_KEY = credentials('nvd-api-key')
@@ -49,12 +43,6 @@ stage('OWASP Dependency Check') {
         dependencyCheckPublisher pattern: 'odc-report/dependency-check-report.xml'
     }
 }
-
-        stage('Sonar Quality Gate Scan'){
-            steps{
-                echo "Done Sonar Quality Gate Scan"
-                }
-            }
         
         stage('Trivy File System Scan'){
             steps {
@@ -65,10 +53,35 @@ stage('OWASP Dependency Check') {
                 '''
             }
         }
-        
-        stage('Docker build'){
+ 
+        stage('Sonar Quality Gate Scan'){
             steps{
-                echo "Done Docker build"
+                echo "Done Sonar Quality Gate Scan"
+                }
+            }
+
+        stage('SonarQube Quality Analysis') {
+            environment {
+                SONAR_TOKEN = credentials('sonar-token')
+            }
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh '''
+                    mvn sonar:sonar \
+                    -Dsonar.projectKey=Wanderlust-App \
+                    -Dsonar.projectName=Wanderlust-App \
+                    -Dsonar.host.url=$SONAR_HOST_URL \
+                    -Dsonar.login=$SONAR_TOKEN
+                    '''
+                }
+            }
+        }
+
+        stage('Sonar Quality Gate Scan') {
+            steps {
+                timeout(time: 2, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
             }
         }
     }
