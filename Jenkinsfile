@@ -61,7 +61,8 @@ stage('Trivy File System Scan (HTML)') {
         sh '''
         trivy fs \
         --severity HIGH,CRITICAL \
-        --format html \
+        --format template \
+        --template "@contrib/html.tpl" \
         -o trivy-fs-report.html \
         . || true
         '''
