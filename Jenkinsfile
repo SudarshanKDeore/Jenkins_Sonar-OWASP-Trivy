@@ -30,7 +30,7 @@ stage('OWASP Dependency Check') {
     steps {
         dependencyCheck additionalArguments: '''
         --scan .
-        --format XML
+        --format HTML
         --out ./odc-report
         --data /var/lib/jenkins/odc-data
         ''', odcInstallation: 'dc'
