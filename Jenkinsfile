@@ -53,12 +53,6 @@ stage('OWASP Dependency Check') {
                 '''
             }
         }
- 
-        stage('Sonar Quality Gate Scan'){
-            steps{
-                echo "Done Sonar Quality Gate Scan"
-                }
-            }
 
         stage('SonarQube Quality Analysis') {
             environment {
