@@ -24,24 +24,20 @@ pipeline{
             }
         
 stage('OWASP Dependency Check') {
-        environment {
-        DC_NVD_API_KEY = credentials('nvd-api-key')
+    environment {
+        NVD_API_KEY = credentials('nvd-api-key')
     }
     steps {
-        withCredentials([string(credentialsId: 'nvd-api-key', variable: 'NVD_API_KEY')]) {
-            dependencyCheck additionalArguments: """
-            --scan .
-            --format XML
-            --out ./odc-report
-            --data /var/lib/jenkins/odc-data
-            --nvdApiKey ${NVD_API_KEY}
-            """, odcInstallation: 'dc'
-        }
+        dependencyCheck additionalArguments: '''
+        --scan .
+        --format XML
+        --out ./odc-report
+        --data /var/lib/jenkins/odc-data
+        ''', odcInstallation: 'dc'
 
-        dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+        dependencyCheckPublisher pattern: '**/odc-report/dependency-check-report.xml'
     }
 }
-
 
         stage('Sonar Quality Gate Scan'){
             steps{
