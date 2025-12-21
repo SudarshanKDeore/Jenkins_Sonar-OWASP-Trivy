@@ -80,7 +80,7 @@ pipeline{
         stage('Sonar Quality Gate Scan') {
             steps {
                 timeout(time: 2, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true     // Fail when Bugs,Vulnerabilities Found
+                    waitForQualityGate abortPipeline: true     // Fail when Bugs=3,Vulnerabilities=1 Found
                 }
             }
         }
