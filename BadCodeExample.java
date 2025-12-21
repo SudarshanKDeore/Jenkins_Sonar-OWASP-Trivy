@@ -4,6 +4,23 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
+package com.demo;
+
+public void nullPointer() {
+    String s = null;
+    System.out.println(s.length()); // NEW bug
+}
+
+public class ForceFail {
+
+    private static final String PASSWORD = "password123"; // 🔐 Vulnerability
+
+    public static void main(String[] args) {
+        String s = null;
+        System.out.println(s.length()); // 🐞 Bug (NullPointerException)
+    }
+}
+
 public class FailGate {
 
     private static final String SECRET = "password123";
