@@ -36,6 +36,7 @@
         }
 ------------------
 Check Output: On SonarQube Server : <Public_IP>:9000
+Scan : Bugs, Security vulnerabilites, code smells, Code Quality metrics, Multi-Language suport
 -------------------------------------------------------------------------------------------------------
 
 2) OWASP
@@ -78,6 +79,7 @@ Check Output:
 cat /var/lib/jenkins/workspace/<Jenkins Project Name>/odc-report/dependency-check-report.xml
 cat /var/lib/jenkins/workspace/<Jenkins Project Name>/odc-report/dependency-check-report.html
 OR : Go to Jenkins console -then project -then project workspace -then odc-report -then click on dependency-check-report.html     --> then see the output on console
+Scan : Java Dependencies, Other Language dependencies, Third-Party libraries only.
 -----------------------------------------------------------------------------------------------------------------
 
 3) Trivy Installation on EC2
@@ -113,5 +115,6 @@ sudo apt-get install trivy -y
 
 Check Output : cat /var/lib/jenkins/workspace/<Jenkins Project Name>/trivy-fs-report.txt
            OR less /var/lib/jenkins/workspace/<Jenkins Project Name>/trivy-fs-report.txt
+Scan : File-System, Image, Code Dependencies, IaC Secreate Scanning, Cluster scan, Containers scan.
 -----------------------------------------------------------------------------------------------------------------
 ```
