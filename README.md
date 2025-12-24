@@ -1,3 +1,4 @@
+```
 1) SonarQube
 # docker run --name sonarqube-custom -p 9000:9000 sonarqube:lts
  ID : Sonar
@@ -113,3 +114,4 @@ sudo apt-get install trivy -y
 Check Output : cat /var/lib/jenkins/workspace/<Jenkins Project Name>/trivy-fs-report.txt
            OR less /var/lib/jenkins/workspace/<Jenkins Project Name>/trivy-fs-report.txt
 -----------------------------------------------------------------------------------------------------------------
+```
