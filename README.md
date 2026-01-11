@@ -1,5 +1,5 @@
 ```
-1) SonarQube
+1) SonarQube                                                        -  SonarQube analyzes your application source code.
 # docker run --name sonarqube-custom -p 9000:9000 sonarqube:lts
  ID : Sonar
 --------------------Jenkins Step-------------------
@@ -17,7 +17,7 @@
                 withSonarQubeEnv('SonarQube') {
                     sh '''
                     mvn clean verify sonar:sonar \
-                    -Dsonar.sources=src/main/java \              # Source to Scan
+                    -Dsonar.sources=src/main/java \              # Source to Scan (Application source code)
                     -Dsonar.projectKey=sonar-demo-app \
                     -Dsonar.projectName=sonar-demo-app \
                     -Dsonar.host.url=$SONAR_HOST_URL \
@@ -39,7 +39,7 @@ Check Output: On SonarQube Server : <Public_IP>:9000
 Scan : Bugs, Security vulnerabilites, code smells, Code Quality metrics, Multi-Language suport
 -------------------------------------------------------------------------------------------------------
 
-2) OWASP
+2) OWASP                                                               - Dependency Check / ZAP etc.
 		Add in Jenkins: this API key Created on nvd.nist.gov
 		Kind: Secret text
 		Secret: 157e9d87-1303-4763-b2d3-39284816e8f0   (API Key)
@@ -64,7 +64,7 @@ stage('OWASP Dependency Check') {
 
         // 3️⃣ Run Dependency-Check (HTML + XML via ALL)
         dependencyCheck additionalArguments: '''
-        --scan target/dependency
+        --scan target/dependency                                    # Source : pom.xml (Java), package.json (Node.js), requirements.txt (Python)
         --format ALL
         --out odc-report
         --data /var/lib/jenkins/odc-data
@@ -82,7 +82,7 @@ OR : Go to Jenkins console -then project -then project workspace -then odc-repor
 Scan : Java Dependencies, Other Language dependencies, Third-Party libraries only.
 -----------------------------------------------------------------------------------------------------------------
 
-3) Trivy Installation on EC2
+3) Trivy Installation on EC2               -   Trivy is a container and infrastructure security scanner.
 
 ✔ Step-1: Install required packages
 sudo apt-get install wget apt-transport-https gnupg lsb-release -y
@@ -105,7 +105,7 @@ sudo apt-get install trivy -y
         stage('Trivy File System Scan'){
             steps {
                 sh '''
-                trivy fs --severity HIGH,CRITICAL \
+                trivy fs --severity HIGH,CRITICAL \                      # Source : Image, FS, Repo SCan Project Code, IaC, 
                 --format table \
                 -o trivy-fs-report.txt .
                 '''
